@@ -7,6 +7,6 @@
 symlinkJoin {
   name = filename;
   paths = [
-    (writeScriptBin filename (builtins.readFile ./${filename}))
+    (writeScriptBin filename (builtins.readFile ./${filename}.sh))
   ];
 }

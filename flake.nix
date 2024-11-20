@@ -13,11 +13,11 @@
       formatter.x86_64-linux = pkgs.nixfmt-rfc-style;
 
       packages.x86_64-linux.show_resources = packageScript {
-        filename = "show_resources.sh";
+        filename = "show_resources";
       };
 
       packages.x86_64-linux.get_aws_creds = packageScript {
-        filename = "get_aws_creds.sh";
+        filename = "get_aws_creds";
       };
     };
 }
