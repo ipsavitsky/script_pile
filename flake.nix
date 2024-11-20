@@ -19,5 +19,9 @@
       packages.x86_64-linux.get_aws_creds = packageScript {
         filename = "get_aws_creds";
       };
+
+      packages.x86_64-linux.explore_tf_state = packageScript {
+        filename = "explore_tf_state";
+      };
     };
 }
