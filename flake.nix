@@ -12,16 +12,16 @@
     {
       formatter.x86_64-linux = pkgs.nixfmt-rfc-style;
 
-      packages.x86_64-linux.show_resources = packageScript {
-        filename = "show_resources";
-      };
-
       packages.x86_64-linux.get_aws_creds = packageScript {
         filename = "get_aws_creds";
       };
 
       packages.x86_64-linux.explore_tf_state = packageScript {
         filename = "explore_tf_state";
+      };
+
+      packages.x86_64-linux.updater = packageScript {
+        filename = "updater";
       };
     };
 }
