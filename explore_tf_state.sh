@@ -1,8 +1,6 @@
-choice=$(dialog --clear \
-    --menu "What part of terraform state do you want to browse?" 0 0 0 \
-    "state" "List terraform state" \
-    "output" "List terraform outputs" \
-    2>&1 >/dev/tty)
+choice=$(gum choose \
+    --header "What part of terraform state do you want to browse?" \
+    "state" "output")
 
 case $choice in
 "state")
