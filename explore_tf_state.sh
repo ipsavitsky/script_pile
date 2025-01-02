@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 choice=$(gum choose \
     --header "What part of terraform state do you want to browse?" \
     "state" "output")
