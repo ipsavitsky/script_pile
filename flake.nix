@@ -18,6 +18,8 @@
           pkgs.gum
           pkgs.fzf
           pkgs.opentofu
+          pkgs.bat
+          pkgs.jq
         ];
       };
     };
