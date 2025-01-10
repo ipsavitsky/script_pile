@@ -4,7 +4,7 @@ pkgs.symlinkJoin {
   name = filename;
   paths =
     let
-      script = (pkgs.writeScriptBin filename (builtins.readFile ./${filename}.sh)).overrideAttrs (old: {
+      script = (pkgs.writeScriptBin filename (builtins.readFile ../${filename}.sh)).overrideAttrs (old: {
         buildCommand = "${old.buildCommand}\n patchShebangs $out";
       });
     in
