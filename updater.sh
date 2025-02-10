@@ -4,7 +4,8 @@ sudo apt update -y
 sudo apt upgrade -y
 sudo apt autoremove -y
 
-nix profile upgrade --all
+# unfortunately, nixGL requires --impure to build
+nix profile upgrade --all --impure
 
 flatpak update
 
