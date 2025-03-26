@@ -31,12 +31,12 @@
 
         packages.explore_tf_state = packageScript {
           filename = "explore_tf_state";
-          additionalPkgs = [
-            pkgs.gum
-            pkgs.fzf
-            pkgs.opentofu
-            pkgs.bat
-            pkgs.jq
+          additionalPkgs = with pkgs; [
+            gum
+            fzf
+            opentofu
+            bat
+            jq
           ];
         };
       }
