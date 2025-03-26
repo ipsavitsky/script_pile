@@ -29,15 +29,35 @@
           formatting = treefmtModule.config.build.check self;
         };
 
-        packages.explore_tf_state = packageScript {
-          filename = "explore_tf_state";
-          additionalPkgs = with pkgs; [
-            gum
-            fzf
-            opentofu
-            bat
-            jq
-          ];
+        packages = {
+          explore_tf_state = packageScript {
+            filename = "explore_tf_state/explore_tf_state.sh";
+            scriptname = "explore_tf_state";
+            additionalPkgs = with pkgs; [
+              gum
+              fzf
+              opentofu
+              bat
+              jq
+            ];
+          };
+
+          plot_loc = pkgs.python3Packages.buildPythonApplication {
+            pname = "plot-loc";
+            version = "0.1.0";
+            pyproject = true;
+
+            src = ./plot_loc;
+
+            build-system = with pkgs.python3Packages; [
+              setuptools
+            ];
+
+            dependencies = with pkgs.python3Packages; [
+              matplotlib
+              pygit2
+            ];
+          };
         };
       }
     );
