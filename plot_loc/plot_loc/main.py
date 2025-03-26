@@ -1,30 +1,41 @@
+import asyncio
 import json
-import subprocess
+import multiprocessing
 
 import matplotlib.pyplot as plt
 from pygit2 import Repository
 from pygit2.enums import SortMode
 
 
-def main():
-    repo = Repository(".git")
-    # preserved_head = repo.head.name
-    # print(f"preserving target at {preserved_head}")
-
-    plot_dicts = []
-
-    for commit in repo.walk(repo.head.target, SortMode.TOPOLOGICAL | SortMode.REVERSE):
+async def run_cloc(commit, semaphores):
+    async with semaphores:
         print(f"checking {commit.short_id}")
-        process = subprocess.Popen(
-            ["cloc", "--git", str(commit.id), "--json"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+        process = await asyncio.create_subprocess_exec(
+            "cloc",
+            "--git",
+            str(commit.id),
+            "--json",
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
         )
-        out, _ = process.communicate()
-        stats = json.loads(out)
-        del stats["header"]
-        plot_dicts.append(stats)
+        out, _ = await process.communicate()
+    stats = json.loads(out.decode())
+    del stats["header"]
+    return stats
 
+
+async def run_script():
+    repo = Repository(".git")
+    cpu_count = multiprocessing.cpu_count()
+    print(f"executing on {cpu_count} cores")
+    semaphores = asyncio.Semaphore(cpu_count)
+    tasks = [
+        run_cloc(commit, semaphores)
+        for commit in repo.walk(
+            repo.head.target, SortMode.TOPOLOGICAL | SortMode.REVERSE
+        )
+    ]
+    plot_dicts = await asyncio.gather(*tasks)
     x_points = list(range(0, len(plot_dicts)))
 
     fig, ax = plt.subplots()
@@ -42,5 +53,8 @@ def main():
         )
 
     plt.legend()
-
     plt.show()
+
+
+def main():
+    asyncio.run(run_script())
