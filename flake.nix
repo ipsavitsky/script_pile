@@ -56,6 +56,7 @@
             dependencies = with pkgs.python3Packages; [
               matplotlib
               pygit2
+              tqdm
             ];
           };
         };

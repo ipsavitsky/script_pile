@@ -5,11 +5,12 @@ import multiprocessing
 import matplotlib.pyplot as plt
 from pygit2 import Repository
 from pygit2.enums import SortMode
+from tqdm.asyncio import tqdm
 
 
 async def run_cloc(commit, semaphores):
     async with semaphores:
-        print(f"checking {commit.short_id}")
+        tqdm.write(f"checking {commit.short_id}")
         process = await asyncio.create_subprocess_exec(
             "cloc",
             "--git",
@@ -35,7 +36,7 @@ async def run_script():
             repo.head.target, SortMode.TOPOLOGICAL | SortMode.REVERSE
         )
     ]
-    plot_dicts = await asyncio.gather(*tasks)
+    plot_dicts = await tqdm.gather(*tasks)
     x_points = list(range(0, len(plot_dicts)))
 
     fig, ax = plt.subplots()
