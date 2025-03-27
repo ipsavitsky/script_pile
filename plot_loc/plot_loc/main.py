@@ -1,3 +1,4 @@
+import argparse
 import asyncio
 import json
 import multiprocessing
@@ -25,9 +26,8 @@ async def run_cloc(commit, semaphores):
     return stats
 
 
-async def run_script():
-    repo = Repository(".git")
-    cpu_count = multiprocessing.cpu_count()
+async def run_script(repo, cpu_count):
+    repo = Repository(repo)
     print(f"executing on {cpu_count} cores")
     semaphores = asyncio.Semaphore(cpu_count)
     tasks = [
@@ -58,4 +58,8 @@ async def run_script():
 
 
 def main():
-    asyncio.run(run_script())
+    parser = argparse.ArgumentParser(prog="plot_loc")
+    parser.add_argument("--jobs", "-j", help="How many cloc jobs to run un parallel", default=multiprocessing.cpu_count(), type=int)
+    parser.add_argument("--repo", "-r", help="Path to bare git repository", default=".git", type=str)
+    args = parser.parse_args()
+    asyncio.run(run_script(args.repo, args.jobs))
