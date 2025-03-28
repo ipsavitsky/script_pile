@@ -19,7 +19,6 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
-        packageScript = import ./nix/script_create.nix { inherit pkgs; };
         treefmtModule = treefmt-nix.lib.evalModule pkgs ./nix/treefmt.nix;
       in
       {
@@ -30,16 +29,18 @@
         };
 
         packages = {
-          explore_tf_state = packageScript {
-            filename = "explore_tf_state/explore_tf_state.sh";
-            scriptname = "explore_tf_state";
-            additionalPkgs = with pkgs; [
+          explore_tf_state = pkgs.writeShellApplication {
+            name = "explore_tf_state";
+
+            runtimeInputs = with pkgs; [
               gum
               fzf
               opentofu
               bat
               jq
             ];
+
+            text = builtins.readFile ./explore_tf_state/explore_tf_state.sh;
           };
 
           plot_loc = pkgs.python3Packages.buildPythonApplication {
