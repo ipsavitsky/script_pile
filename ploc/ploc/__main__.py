@@ -58,7 +58,7 @@ async def run_script(repo, cpu_count):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="plot_loc")
+    parser = argparse.ArgumentParser(prog="ploc")
     parser.add_argument(
         "--jobs",
         "-j",

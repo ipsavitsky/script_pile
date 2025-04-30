@@ -41,7 +41,7 @@
       let
         pkgs = import nixpkgs { inherit system; };
         treefmtModule = treefmt-nix.lib.evalModule pkgs ./nix/treefmt.nix;
-        workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = ./plot_loc; };
+        workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = ./ploc; };
         overlay = workspace.mkPyprojectOverlay { sourcePreference = "wheel"; };
         pythonSet = (pkgs.callPackage pyproject-nix.build.packages {
           python = pkgs.python312;
@@ -78,7 +78,7 @@
             text = builtins.readFile ./explore_tf_state/explore_tf_state.sh;
           };
 
-          plot_loc = pythonSet.mkVirtualEnv "plot_loc" workspace.deps.default;
+          ploc = pythonSet.mkVirtualEnv "ploc" workspace.deps.default;
         };
       }
     );
