@@ -59,7 +59,7 @@
           formatting = treefmtModule.config.build.check self;
         };
 
-        devShell.default = pkgs.mkShell {
+        devShells.default = pkgs.mkShell {
           packages = with pkgs; [ uv python3 ];
         };
 
