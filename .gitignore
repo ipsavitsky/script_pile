@@ -2,3 +2,4 @@ result
 venv
 __pycache__
 .direnv
+*.egg-info/
