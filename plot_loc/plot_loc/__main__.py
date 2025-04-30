@@ -59,7 +59,15 @@ async def run_script(repo, cpu_count):
 
 def main():
     parser = argparse.ArgumentParser(prog="plot_loc")
-    parser.add_argument("--jobs", "-j", help="How many cloc jobs to run un parallel", default=multiprocessing.cpu_count(), type=int)
-    parser.add_argument("--repo", "-r", help="Path to bare git repository", default=".git", type=str)
+    parser.add_argument(
+        "--jobs",
+        "-j",
+        help="How many cloc jobs to run un parallel",
+        default=multiprocessing.cpu_count(),
+        type=int,
+    )
+    parser.add_argument(
+        "--repo", "-r", help="Path to bare git repository", default=".git", type=str
+    )
     args = parser.parse_args()
     asyncio.run(run_script(args.repo, args.jobs))
