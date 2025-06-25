@@ -39,14 +39,21 @@
           packages = runtimePackages;
         };
 
-        packages = rec {
-          default = explore_tf_state;
+        packages = {
           explore_tf_state = pkgs.writeShellApplication {
             name = "explore_tf_state";
-
             runtimeInputs = runtimePackages;
-
             text = builtins.readFile ./explore_tf_state/explore_tf_state.sh;
+          };
+
+          wl-screenshot = pkgs.writeShellApplication {
+            name = "wl-screenshot";
+            runtimeInputs = with pkgs; [
+              grim
+              slurp
+              wl-clipboard
+            ];
+            text = ''grim -g "$(slurp)" - | wl-copy'';
           };
         };
       }
